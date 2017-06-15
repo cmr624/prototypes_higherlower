@@ -14,24 +14,80 @@ public class higher_lower
 	//main
 	public static void main(String[] args) 
 	{
-		Scanner input = new Scanner(System.in);
+		menuLoop();
+	}
 
+	public static void menuLoop()
+	{
+		boolean run = true;
+		while(run)
+		{
+			Scanner input = new Scanner(System.in);
+			System.out.println("WELCOME TO HIGHER LOWER");
+			System.out.println("***********************");
+			System.out.println("***  (1) NEW GAME   ***");
+			System.out.println("***  (2) LOAD GAME  ***");
+			System.out.println("***  (3) SCOREBOARD ***");
+			System.out.println("***  (4) EXIT       ***");
+			System.out.println("***********************");
+			int userCommand = input.nextInt();
+			switch(userCommand)
+			{
+				case 1: newGame();
+						break;
+				case 2: loadGame();
+						break;
+				case 3: showScoreboard();
+						break;
+				case 4: run = leaveGame();
+						break;
+				default: System.out.println("Choose (1) (2) (3) (4).");
+						 userCommand = input.nextInt();
+						 break;
+			}
+		}
+		System.exit(0);
+	}
+
+	public static void newGame()
+	{
+		Scanner input = new Scanner(System.in);
+		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n");
+		System.out.println("****** NEW GAME ******");
+		System.out.println("**********************");
 		//get user input for # of questions
 		System.out.println("How many questions?");
 		int questionNum = input.nextInt();
-
+		String fileName = "content.csv";
 		//initialize the questions w the given question #
-		Question qarray [] = initialize(questionNum);
+		Question qarray [] = initialize(questionNum, fileName);
 
 		//welcome screen
-		System.out.println("Type in your name: \n");
+		System.out.println("Type in your name:");
 		Player player = new Player(input.next());
 		System.out.println("Welcome, " + player.name + "!");
 		player.printScore();
-		questionLoop(questionNum, qarray, player, input);
 
 		//game loop, loops for the number of questions currently
 		//TODO: create a function that creates a game loop, so it can be altered for difficulty, # of q's, etc.
+		questionLoop(questionNum, qarray, player, input);
+
+	}
+
+	public static void loadGame()
+	{
+
+	}
+
+	public static void showScoreboard()
+	{
+
+	}
+
+	public static boolean leaveGame()
+	{
+		System.out.println("Game exited.");
+		return false;
 	}
 
 	public static void questionLoop(int questionNum, Question[] qarray, Player player, Scanner input)
@@ -49,15 +105,15 @@ public class higher_lower
 	}
 
 	//initialize function - deals with file i/o
-	public static Question[] initialize(int size)
+	public static Question[] initialize(int size, String fileName)
 	{
 		//creates an array the size of hte initializition
 		Question[] qarray = new Question[size];
 		Scanner inputFile;
 		try
 		{
-			//TODO: make this a parameter, and allow for a bunch of different csv's according to category
-			File f = new File("content.csv");
+			//TODO: allow for a bunch of different csv's according to category
+			File f = new File(fileName);
 			inputFile = new Scanner(f);
 			for (int i = 0; i < size; i++)
 				{
