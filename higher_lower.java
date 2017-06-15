@@ -28,10 +28,14 @@ public class higher_lower
 		Player player = new Player(input.next());
 		System.out.println("Welcome, " + player.name + "!");
 		player.printScore();
+		questionLoop(questionNum, qarray, player, input);
 
 		//game loop, loops for the number of questions currently
 		//TODO: create a function that creates a game loop, so it can be altered for difficulty, # of q's, etc.
+	}
 
+	public static void questionLoop(int questionNum, Question[] qarray, Player player, Scanner input)
+	{
 		//currently progresses linearly through qarray
 		for(int i = 0; i < questionNum; i++)
 		{
