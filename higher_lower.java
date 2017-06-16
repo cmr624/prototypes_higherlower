@@ -23,13 +23,18 @@ public class higher_lower
 		while(run)
 		{
 			Scanner input = new Scanner(System.in);
-			System.out.println("WELCOME TO HIGHER LOWER");
-			System.out.println("***********************");
-			System.out.println("***  (1) NEW GAME   ***");
-			System.out.println("***  (2) LOAD GAME  ***");
-			System.out.println("***  (3) SCOREBOARD ***");
-			System.out.println("***  (4) EXIT       ***");
-			System.out.println("***********************");
+
+			//TODO: figure out how to do this better
+			String[] options = new String[4];
+			options[0] = "(1) NEW GAME";
+			options[1] = "(2) LOAD GAME";
+			options[2] = "(3) SCOREBOARD";
+			options[3] = "(4) EXIT";
+
+			//initialize a menu
+			String menuName = "WELCOME TO HIGHER LOWER";
+			Menu menu = new Menu(options, menuName);
+			menu.printMenu();
 			int userCommand = input.nextInt();
 			switch(userCommand)
 			{
@@ -52,7 +57,9 @@ public class higher_lower
 	public static void newGame()
 	{
 		Scanner input = new Scanner(System.in);
-		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n");
+		//System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n");
+		clear();
+		System.out.println("**********************");
 		System.out.println("****** NEW GAME ******");
 		System.out.println("**********************");
 		//get user input for # of questions
@@ -90,6 +97,12 @@ public class higher_lower
 		return false;
 	}
 
+	public static void clear()
+	{
+		System.out.print("\033[H\033[2J");
+		System.out.flush();
+	}
+
 	public static void questionLoop(int questionNum, Question[] qarray, Player player, Scanner input)
 	{
 		//currently progresses linearly through qarray
@@ -101,6 +114,17 @@ public class higher_lower
 			String userCommand = input.next();
 			check(userCommand, current, player);
 			player.printScore();
+			System.out.println("Choose: (n)ext or check (s)core");
+			userCommand = input.next();
+			if (userCommand.equals("n"))
+			{
+				clear();
+			}
+			else if (userCommand.equals("s"))
+			{
+				clear();
+				player.printScore();
+			}
 		}
 	}
 
@@ -256,7 +280,7 @@ class Player
 	//prints the score, maybe could make it toString but i am adapting for the future here.
 	void printScore()
 	{
-		System.out.println(this.name + ": " + this.score + "\n");
+		System.out.println("SCORE: " + this.name + ": " + this.score + "\n");
 	}
 
 
@@ -273,6 +297,29 @@ class Player
 	}
 }
 
+class Menu
+{
+	String[] options;
+	Scanner input = new Scanner(System.in);
+	String menuName;
+
+	Menu(String[] options, String menuName)
+	{
+		this.options = options;
+		this.menuName = menuName;
+	}
+
+	void printMenu()
+	{
+		System.out.println(menuName);
+		System.out.println("***********************");
+		for (int i = 0; i < options.length; i++)
+		{
+			System.out.println("***** " + options[i] + " *****");
+		}
+		System.out.println("***********************");
+	}
+}
 
 
 
