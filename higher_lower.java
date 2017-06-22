@@ -20,12 +20,13 @@ public class higher_lower
 	public static void menuLoop()
 	{
 		boolean run = true;
+		Player p = new Player("#GUEST%%0.6.2.2");
 		while(run)
 		{
+			System.out.println(p);
 			Scanner input = new Scanner(System.in);
-
 			//TODO: figure out how to do this better
-			String[] options = new String[4];
+			String[] options = new String[5];
 			options[0] = "(1) NEW GAME";
 			options[1] = "(2) LOAD GAME";
 			options[2] = "(3) SAVE GAME";
@@ -39,17 +40,17 @@ public class higher_lower
 			int userCommand = input.nextInt();
 			switch(userCommand)
 			{
-				case 1: newGame();
+				case 1: p = newGame();
 						break;
-				case 2: loadGame();
+				case 2: p = loadSave();
 						break;
-				case 3: saveGame();
+				case 3: saveGame(p);
 						break;
 				case 4: showScoreboard();
 						break;
 				case 5: run = leaveGame();
 						break;
-				default: System.out.println("Choose (1) (2) (3) (4).");
+				default: System.out.println("Choose (1) (2) (3) (4) (5).");
 						 userCommand = input.nextInt();
 						 break;
 			}
@@ -57,7 +58,7 @@ public class higher_lower
 		System.exit(0);
 	}
 
-	public static void newGame()
+	public static Player newGame()
 	{
 		Scanner input = new Scanner(System.in);
 		clear();
@@ -82,32 +83,33 @@ public class higher_lower
 
 		//game loop, loops for the number of questions currently
 		questionLoop(questionNum, qarray, player, input);
+		return player;
 
 	}
 
-	public static String[] loadSave()
+	//will extract a player from the file. Now is just name / score
+	public static Player loadSave()
 	{
 		Scanner inputFile;
 		int size = 5;
 		try
 		{
-			//TODO: allow for a bunch of different csv's according to category
-			String fileName;
+			String fileName = "";
 			File f = new File(fileName);
 			inputFile = new Scanner(f);
-			for (int i = 0; i < size; i++)
-				{
-					String line = inputFile.nextLine();
-					String [] splitted = new String[4];
-					splitted = line.split(",");
-					//string[0] name
-					//string[1] high score
-				}
+			String line = inputFile.nextLine();
+			String [] splitted = new String[2];
+			splitted = line.split(",");
+			//string[0] name
+			//string[1] high score
+			Player p = new Player(splitted[0]);
+			return p;
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	public static void loadGame()
@@ -120,9 +122,35 @@ public class higher_lower
 
 	}
 
-	public static void saveGame()
+	public static void saveGame(Player p)
 	{
-
+		if (p.name.equals("#GUEST%%0.6.2.2"))
+		{
+			System.out.println("NO PLAYER TO SAVE. START A NEW GAME OR LOAD A GAME.");
+		}
+		else
+		{
+			Scanner inputFile;
+			int size = 5;
+			try
+			{
+				String fileName = "";
+				File f = new File(fileName);
+				inputFile = new Scanner(f);
+				for (int i = 0; i < size; i++)
+				{
+					String line = inputFile.nextLine();
+					String [] splitted = new String[4];
+					splitted = line.split(",");
+					//string[0] name
+					//string[1] high score
+				}
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static boolean leaveGame()
@@ -131,12 +159,14 @@ public class higher_lower
 		return false;
 	}
 
+	//hack found on StackOverflow
 	public static void clear()
 	{
 		System.out.print("\033[H\033[2J");
 		System.out.flush();
 	}
 
+	//the loop that handles asking the questions and dealing w input
 	public static void questionLoop(int questionNum, Question[] qarray, Player player, Scanner input)
 	{
 		//currently progresses linearly through qarray
@@ -318,6 +348,16 @@ class Player
 		System.out.println("SCORE: " + this.name + ": " + this.score + "\n");
 	}
 
+	@Override
+	public String toString()
+	{
+		if (this.name.equals("#GUEST%%0.6.2.2"))
+		{
+			return "No current player selected. Click NEW GAME or LOAD GAME to select player.";
+		}
+		return "Player:" + this.name + "\n" + "Score:" + this.score;
+	}
+
 
 	//is there a better way to do this? think about it - 
 	//right now it's just two functions that add or subtract the score. 
@@ -334,8 +374,7 @@ class Player
 	}
 }
 
-class Menu
-{
+class Menu{
 	String[] options;
 	Scanner input = new Scanner(System.in);
 	String menuName;
@@ -356,4 +395,5 @@ class Menu
 		}
 		System.out.println("***********************");
 	}
+
 }
