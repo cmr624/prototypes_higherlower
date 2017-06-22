@@ -57,11 +57,11 @@ public class higher_lower
 	public static void newGame()
 	{
 		Scanner input = new Scanner(System.in);
-		//System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n");
 		clear();
 		System.out.println("**********************");
 		System.out.println("****** NEW GAME ******");
 		System.out.println("**********************");
+
 		//get user input for # of questions
 		System.out.println("How many questions?");
 		int questionNum = input.nextInt();
@@ -76,7 +76,6 @@ public class higher_lower
 		player.printScore();
 
 		//game loop, loops for the number of questions currently
-		//TODO: create a function that creates a game loop, so it can be altered for difficulty, # of q's, etc.
 		questionLoop(questionNum, qarray, player, input);
 
 	}
@@ -151,7 +150,8 @@ public class higher_lower
 					{
 						String [] splitted = new String[4];
 						splitted = line.split(",");
-						qarray[i] = new Question(splitted[0], Integer.parseInt(splitted[1]), Integer.parseInt(splitted[2]),Integer.parseInt(splitted[3]));
+						qarray[i] = new Question(splitted[0], Integer.parseInt(splitted[1]), 
+							Integer.parseInt(splitted[2]),Integer.parseInt(splitted[3]));
 					}
 
 				}
@@ -242,10 +242,12 @@ class Question
 	public String toString()
 	{	
 		return ("QUESTION" + "\n" + this.question + "\n" + this.number + 
-		"\n" + "-------------------------" + "\n" + "Is this number too (s)mall or too (b)ig compared to the FACT?\n");
+		"\n" + "-------------------------" + "\n" + "Is this number too (s)mall or too (b)ig 
+		compared to the FACT?\n");
 	}
 
-	//the answer function. this is just a series of print statements, I shuold consolidate the scorekeeping maybe within this, or put this into scorekeeping
+	//the answer function. this is just a series of print statements, I shuold consolidate 
+	//the scorekeeping maybe within this, or put this into scorekeeping
 	//TODO: this seems ineffecient. will go back.
 	void answer()
 	{
@@ -284,8 +286,10 @@ class Player
 	}
 
 
-	//is there a better way to do this? think about it - right now it's just two functions that add or subtract the score. 
-	//I do like the idea of the player doing all the score controlling. i don't like the main function dealing w that at all. 
+	//is there a better way to do this? think about it - 
+	//right now it's just two functions that add or subtract the score. 
+	//I do like the idea of the player doing all the score 
+	//controlling. i don't like the main function dealing w that at all. 
 	void addScore(int add)
 	{
 		this.score += add;
@@ -320,16 +324,3 @@ class Menu
 		System.out.println("***********************");
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
