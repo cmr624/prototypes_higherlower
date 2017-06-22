@@ -28,8 +28,9 @@ public class higher_lower
 			String[] options = new String[4];
 			options[0] = "(1) NEW GAME";
 			options[1] = "(2) LOAD GAME";
-			options[2] = "(3) SCOREBOARD";
-			options[3] = "(4) EXIT";
+			options[2] = "(3) SAVE GAME";
+			options[3] = "(4) SCOREBOARD";
+			options[4] = "(5) EXIT";
 
 			//initialize a menu
 			String menuName = "WELCOME TO HIGHER LOWER";
@@ -42,9 +43,11 @@ public class higher_lower
 						break;
 				case 2: loadGame();
 						break;
-				case 3: showScoreboard();
+				case 3: saveGame();
 						break;
-				case 4: run = leaveGame();
+				case 4: showScoreboard();
+						break;
+				case 5: run = leaveGame();
 						break;
 				default: System.out.println("Choose (1) (2) (3) (4).");
 						 userCommand = input.nextInt();
@@ -65,6 +68,8 @@ public class higher_lower
 		//get user input for # of questions
 		System.out.println("How many questions?");
 		int questionNum = input.nextInt();
+		//create options menu here
+		Menu content_options;
 		String fileName = "content.csv";
 		//initialize the questions w the given question #
 		Question qarray [] = initialize(questionNum, fileName);
@@ -80,12 +85,42 @@ public class higher_lower
 
 	}
 
+	public static String[] loadSave()
+	{
+		Scanner inputFile;
+		int size = 5;
+		try
+		{
+			//TODO: allow for a bunch of different csv's according to category
+			String fileName;
+			File f = new File(fileName);
+			inputFile = new Scanner(f);
+			for (int i = 0; i < size; i++)
+				{
+					String line = inputFile.nextLine();
+					String [] splitted = new String[4];
+					splitted = line.split(",");
+					//string[0] name
+					//string[1] high score
+				}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
 	public static void loadGame()
 	{
 
 	}
 
 	public static void showScoreboard()
+	{
+
+	}
+
+	public static void saveGame()
 	{
 
 	}
@@ -241,9 +276,7 @@ class Question
 	}
 	public String toString()
 	{	
-		return ("QUESTION" + "\n" + this.question + "\n" + this.number + 
-		"\n" + "-------------------------" + "\n" + "Is this number too (s)mall or too (b)ig 
-		compared to the FACT?\n");
+		return ("QUESTION" + "\n" + this.question + "\n" + this.number + "\n" + "-------------------------" + "\n" + "Is this number too (s)mall or too (b)ig compared to the FACT?\n");
 	}
 
 	//the answer function. this is just a series of print statements, I shuold consolidate 
